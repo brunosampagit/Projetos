@@ -1,0 +1,318 @@
+{
+	"info": {
+		"_postman_id": "8a542478-0dfe-4dfd-94b0-7c7442d9b35b",
+		"name": "Testes Empregado",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21490926"
+	},
+	"item": [
+		{
+			"name": "CT01 - Cadastro de empregado correto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 202\", function () {\r",
+							"    pm.response.to.have.status(202);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 500ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validar cpf cadastrado\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"099.162.190-00\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "automacao",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "inmetrics",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"admissao\": \"01/08/2022\",\r\n  \"cargo\": \"Analista de Teste\",\r\n  \"comissao\": \"11.000,00\",\r\n  \"cpf\": \"099.162.190-00\",\r\n  \"departamentoId\": 1,\r\n  \"nome\": \"Maria do Carmo\",\r\n  \"salario\": \"20.000,00\",\r\n  \"sexo\": \"f\",\r\n  \"tipoContratacao\": \"pj\"\r\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}empregado/cadastrar",
+					"host": [
+						"{{baseUrl}}empregado"
+					],
+					"path": [
+						"cadastrar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CT02 - Listar todos empregados",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "automacao",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "inmetrics",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseUrl}}empregado/list_all",
+					"host": [
+						"{{baseUrl}}empregado"
+					],
+					"path": [
+						"list_all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CT03 - Listar usuario cadastrado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 202\", function () {\r",
+							"    pm.response.to.have.status(202);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validar ID do Empregado\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"3124\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validar CPF do Empregado\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"099.162.190-52\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validar tempo de respostas de 400ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "automacao",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "inmetrics",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}empregado/list/3124",
+					"host": [
+						"{{baseUrl}}empregado"
+					],
+					"path": [
+						"list",
+						"3124"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CT04 - Alterar empregado cadastrado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 202\", function () {\r",
+							"    pm.response.to.have.status(202);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validar cargo alterado\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Especialista de teste\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validar ID do empregado\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"3124\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "automacao",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "inmetrics",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"admissao\": \"01/09/2022\",\r\n  \"cargo\": \"Especialista de teste\",\r\n  \"comissao\": \"15.000,00\",\r\n  \"cpf\": \"099.162.190-52\",\r\n  \"departamentoId\": 1,\r\n  \"nome\": \"Jose de Almeida\",\r\n  \"salario\": \"20.000,00\",\r\n  \"sexo\": \"m\",\r\n  \"tipoContratacao\": \"pj\"\r\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}empregado/alterar/3124",
+					"host": [
+						"{{baseUrl}}empregado"
+					],
+					"path": [
+						"alterar",
+						"3124"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CT05 - Deletar empregado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"    \r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "automacao",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "inmetrics",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseUrl}}empregado/deletar/3139",
+					"host": [
+						"{{baseUrl}}empregado"
+					],
+					"path": [
+						"deletar",
+						"3139"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
